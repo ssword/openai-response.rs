@@ -1,4 +1,5 @@
 use crate::api::models::ResponseApiResponse;
+use crate::cli::markdown::MarkdownRenderer;
 use crate::utils::content::extract_response_content;
 use anyhow::Result;
 
@@ -24,6 +25,11 @@ impl OutputFormatter {
     pub fn format_json(response: &ResponseApiResponse) -> Result<()> {
         println!("{}", serde_json::to_string_pretty(response)?);
         Ok(())
+    }
+
+    pub fn format_markdown_response(response: &ResponseApiResponse, verbose: bool) -> Result<()> {
+        let renderer = MarkdownRenderer::new();
+        renderer.render_response(response, verbose)
     }
 
     fn format_verbose_info(response: &ResponseApiResponse) {

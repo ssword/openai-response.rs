@@ -1,5 +1,6 @@
 use anyhow::Result;
 use clap::Parser;
+use openai_api::cli::args::DisplayMode;
 use openai_api::cli::output::OutputFormatter;
 use openai_api::{Args, Config, OpenAIClient};
 
@@ -69,10 +70,10 @@ async fn main() -> Result<()> {
     // Make the API request
     match client.get_response_with_builder(request_builder).await {
         Ok(response) => {
-            if args.json {
-                OutputFormatter::format_json(&response)?;
-            } else {
-                OutputFormatter::format_response(&response, args.verbose)?;
+            match args.get_display_mode() {
+                DisplayMode::Json => OutputFormatter::format_json(&response)?,
+                DisplayMode::Markdown => OutputFormatter::format_markdown_response(&response, args.verbose)?,
+                DisplayMode::Plain => OutputFormatter::format_response(&response, args.verbose)?,
             }
         }
         Err(e) => {

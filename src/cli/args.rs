@@ -2,6 +2,13 @@ use anyhow::{anyhow, Result};
 use clap::Parser;
 use std::io::{self, Write};
 
+#[derive(Debug, Clone, PartialEq)]
+pub enum DisplayMode {
+    Json,
+    Markdown,
+    Plain,
+}
+
 /// OpenAI CLI tool for interacting with the Responses API
 #[derive(Parser)]
 #[command(name = "openai-cli")]
@@ -27,6 +34,14 @@ pub struct Args {
     /// Output response in JSON format
     #[arg(short, long)]
     pub json: bool,
+
+    /// Render response as markdown in terminal (default)
+    #[arg(long, alias = "md", default_value = "true")]
+    pub markdown: bool,
+
+    /// Render response as plain text (disables markdown)
+    #[arg(long)]
+    pub plain: bool,
 
     /// Maximum number of output tokens
     #[arg(long)]
@@ -147,12 +162,31 @@ impl Args {
         }
     }
 
+    pub fn validate_output_format(&self) -> Result<()> {
+        let format_count = [self.json, self.plain].iter().filter(|&&x| x).count();
+        if format_count > 1 {
+            return Err(anyhow!("Cannot use multiple output format flags simultaneously"));
+        }
+        Ok(())
+    }
+
+    pub fn get_display_mode(&self) -> DisplayMode {
+        if self.json {
+            DisplayMode::Json
+        } else if self.plain {
+            DisplayMode::Plain
+        } else {
+            DisplayMode::Markdown
+        }
+    }
+
     pub fn validate_all(&self) -> Result<()> {
         self.validate_temperature()?;
         self.validate_top_p()?;
         self.validate_top_logprobs()?;
         self.validate_service_tier()?;
         self.validate_truncation()?;
+        self.validate_output_format()?;
         Ok(())
     }
 }
