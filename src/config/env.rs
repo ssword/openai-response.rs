@@ -1,5 +1,5 @@
-use std::env;
 use anyhow::{anyhow, Result};
+use std::env;
 
 pub struct Config {
     pub api_key: String,

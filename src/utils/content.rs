@@ -1,4 +1,4 @@
-use crate::api::models::{ResponseApiResponse, ContentType};
+use crate::api::models::{ContentType, ResponseApiResponse};
 
 // Helper function to extract text content from the new response format
 pub fn extract_response_content(response: &ResponseApiResponse) -> String {

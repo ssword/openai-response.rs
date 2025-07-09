@@ -1,5 +1,5 @@
-use clap::Parser;
 use anyhow::{anyhow, Result};
+use clap::Parser;
 use std::io::{self, Write};
 
 /// OpenAI CLI tool for interacting with the Responses API
@@ -131,7 +131,9 @@ impl Args {
         if let Some(tier) = &self.service_tier {
             match tier.as_str() {
                 "auto" | "default" | "flex" | "priority" => Ok(()),
-                _ => Err(anyhow!("Service tier must be one of: auto, default, flex, priority")),
+                _ => Err(anyhow!(
+                    "Service tier must be one of: auto, default, flex, priority"
+                )),
             }
         } else {
             Ok(())

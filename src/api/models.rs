@@ -43,7 +43,7 @@ pub struct ReasoningConfig {
 #[derive(Serialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum ToolChoice {
-    String(String), // "auto", "none", "required"
+    String(String),            // "auto", "none", "required"
     Object(serde_json::Value), // Specific tool selection
 }
 
@@ -412,4 +412,3 @@ pub struct ResponseApiResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub metadata: Option<serde_json::Value>,
 }
-

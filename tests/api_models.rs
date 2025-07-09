@@ -63,7 +63,10 @@ fn test_response_api_deserialization() {
 
     let response: ResponseApiResponse = serde_json::from_value(response_json).unwrap();
 
-    assert_eq!(response.id, "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b");
+    assert_eq!(
+        response.id,
+        "resp_67ccd2bed1ec8190b14f964abc0542670bb6a6b452d3795b"
+    );
     assert_eq!(response.object, "response");
     assert_eq!(response.model, "gpt-4.1-2025-04-14");
     assert_eq!(response.status, "completed");
@@ -94,10 +97,12 @@ fn test_extract_response_content() {
             status: "completed".to_string(),
             role: "assistant".to_string(),
             content: vec![
-                ContentType::Text { text: "Hello".to_string() },
+                ContentType::Text {
+                    text: "Hello".to_string(),
+                },
                 ContentType::OutputText {
                     text: "World".to_string(),
-                    annotations: vec![]
+                    annotations: vec![],
                 },
             ],
         }],
@@ -166,7 +171,10 @@ fn test_response_request_builder() {
     assert_eq!(request.model, Some("gpt-4.1".to_string()));
     assert_eq!(request.temperature, Some(0.8));
     assert_eq!(request.max_output_tokens, Some(100));
-    assert_eq!(request.instructions, Some("You are a helpful assistant".to_string()));
+    assert_eq!(
+        request.instructions,
+        Some("You are a helpful assistant".to_string())
+    );
     assert_eq!(request.stream, Some(true));
     assert_eq!(request.background, Some(false));
     assert_eq!(request.service_tier, Some("priority".to_string()));

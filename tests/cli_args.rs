@@ -1,10 +1,16 @@
-use openai_api::cli::args::Args;
 use clap::Parser;
+use openai_api::cli::args::Args;
 
 #[test]
 fn test_args_parsing() {
-    let args = Args::parse_from(&["test", "--model", "gpt-3.5-turbo", "--verbose", "Hello world"]);
-    
+    let args = Args::parse_from(&[
+        "test",
+        "--model",
+        "gpt-3.5-turbo",
+        "--verbose",
+        "Hello world",
+    ]);
+
     assert_eq!(args.model, "gpt-3.5-turbo");
     assert_eq!(args.verbose, true);
     assert_eq!(args.prompt, Some("Hello world".to_string()));

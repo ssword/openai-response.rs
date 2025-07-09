@@ -1,7 +1,7 @@
 use anyhow::Result;
 use clap::Parser;
-use openai_api::{OpenAIClient, Config, Args};
 use openai_api::cli::output::OutputFormatter;
+use openai_api::{Args, Config, OpenAIClient};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -22,7 +22,8 @@ async fn main() -> Result<()> {
     println!("🤖 Sending request to OpenAI...");
 
     // Build the request with all provided parameters
-    let mut request_builder = client.request_builder()
+    let mut request_builder = client
+        .request_builder()
         .model(args.model.clone())
         .input_text(prompt);
 

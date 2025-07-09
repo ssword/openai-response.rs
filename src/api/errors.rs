@@ -47,8 +47,14 @@ impl OpenAIError {
         if let Ok(api_error) = serde_json::from_str::<ApiError>(response_text) {
             OpenAIError::ApiError {
                 message: api_error.error.message,
-                error_type: api_error.error.error_type.unwrap_or_else(|| "unknown".to_string()),
-                code: api_error.error.code.unwrap_or_else(|| "unknown".to_string()),
+                error_type: api_error
+                    .error
+                    .error_type
+                    .unwrap_or_else(|| "unknown".to_string()),
+                code: api_error
+                    .error
+                    .code
+                    .unwrap_or_else(|| "unknown".to_string()),
             }
         } else {
             OpenAIError::HttpError {

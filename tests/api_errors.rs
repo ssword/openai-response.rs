@@ -14,9 +14,13 @@ fn test_api_error_parsing() {
     "#;
 
     let error = OpenAIError::parse_api_error(error_json, StatusCode::UNAUTHORIZED);
-    
+
     match error {
-        OpenAIError::ApiError { message, error_type, code } => {
+        OpenAIError::ApiError {
+            message,
+            error_type,
+            code,
+        } => {
             assert_eq!(message, "Invalid API key");
             assert_eq!(error_type, "invalid_request_error");
             assert_eq!(code, "invalid_api_key");
@@ -29,7 +33,7 @@ fn test_api_error_parsing() {
 fn test_http_error_parsing() {
     let error_text = "Server Error";
     let error = OpenAIError::parse_api_error(error_text, StatusCode::INTERNAL_SERVER_ERROR);
-    
+
     match error {
         OpenAIError::HttpError { status, message } => {
             assert_eq!(status, StatusCode::INTERNAL_SERVER_ERROR);

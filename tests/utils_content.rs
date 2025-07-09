@@ -1,5 +1,7 @@
-use openai_api::utils::content::{extract_response_content, extract_content_from_array};
-use openai_api::api::models::{ResponseApiResponse, OutputMessage, ContentType, Usage, TextConfig, TextFormat};
+use openai_api::api::models::{
+    ContentType, OutputMessage, ResponseApiResponse, TextConfig, TextFormat, Usage,
+};
+use openai_api::utils::content::{extract_content_from_array, extract_response_content};
 
 #[test]
 fn test_extract_response_content() {
@@ -18,9 +20,9 @@ fn test_extract_response_content() {
             id: "msg-123".to_string(),
             status: "completed".to_string(),
             role: "assistant".to_string(),
-            content: vec![
-                ContentType::Text { text: "Simple message".to_string() },
-            ],
+            content: vec![ContentType::Text {
+                text: "Simple message".to_string(),
+            }],
         }],
         parallel_tool_calls: true,
         previous_response_id: None,
@@ -53,10 +55,12 @@ fn test_extract_response_content() {
 #[test]
 fn test_extract_complex_content() {
     let content_array = vec![
-        ContentType::Text { text: "Hello".to_string() },
+        ContentType::Text {
+            text: "Hello".to_string(),
+        },
         ContentType::OutputText {
             text: "World".to_string(),
-            annotations: vec![]
+            annotations: vec![],
         },
     ];
 
@@ -107,19 +111,29 @@ fn test_extract_no_content() {
 #[test]
 fn test_extract_empty_content_array() {
     let content_array: Vec<ContentType> = vec![];
-    assert_eq!(extract_content_from_array(&content_array), "No content available");
+    assert_eq!(
+        extract_content_from_array(&content_array),
+        "No content available"
+    );
 }
 
 #[test]
 fn test_extract_mixed_content() {
     let content_array = vec![
-        ContentType::Text { text: "First".to_string() },
-        ContentType::Text { text: "Second".to_string() },
+        ContentType::Text {
+            text: "First".to_string(),
+        },
+        ContentType::Text {
+            text: "Second".to_string(),
+        },
         ContentType::OutputText {
             text: "Third".to_string(),
-            annotations: vec![]
+            annotations: vec![],
         },
     ];
 
-    assert_eq!(extract_content_from_array(&content_array), "First Second Third");
+    assert_eq!(
+        extract_content_from_array(&content_array),
+        "First Second Third"
+    );
 }

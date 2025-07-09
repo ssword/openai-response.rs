@@ -69,11 +69,13 @@ You'll be prompted to enter your question.
 ### Options
 
 #### Core Options
+
 - `--model <MODEL>`: Specify the OpenAI model to use (default: gpt-4o-mini)
 - `--verbose`: Show detailed usage statistics and response metadata
 - `--json`: Output the complete response in JSON format
 
 #### Response Configuration
+
 - `--temperature <TEMP>`: Set response randomness (0.0 to 2.0)
 - `--max-output-tokens <TOKENS>`: Maximum number of output tokens
 - `--instructions <TEXT>`: System instructions for the model
@@ -81,24 +83,28 @@ You'll be prompted to enter your question.
 - `--top-logprobs <COUNT>`: Number of top log probabilities to return (0-20)
 
 #### Behavior Options
+
 - `--stream`: Enable streaming response
 - `--background`: Run in background
 - `--store <BOOL>`: Whether to store the response
 - `--parallel-tool-calls <BOOL>`: Allow parallel tool calls
 
 #### Advanced Options
+
 - `--service-tier <TIER>`: Service tier (auto, default, flex, priority)
 - `--user <ID>`: User identifier for tracking
 - `--previous-response-id <ID>`: Previous response ID for multi-turn conversations
 - `--truncation <STRATEGY>`: Truncation strategy (auto, disabled)
 
 #### Utility Options
+
 - `--help`: Display help information
 - `--version`: Show version information
 
 ## Examples
 
 ### Basic Question
+
 ```bash
 $ ./target/release/OpenAI-API "What is Rust programming language?"
 🤖 Sending request to OpenAI...
@@ -108,6 +114,7 @@ Rust is a systems programming language that focuses on safety, speed, and concur
 ```
 
 ### With Verbose Output
+
 ```bash
 $ ./target/release/OpenAI-API --verbose "Explain machine learning"
 🤖 Sending request to OpenAI...
@@ -130,11 +137,13 @@ Machine learning is a subset of artificial intelligence...
 ```
 
 ### Using Different Model with Temperature
+
 ```bash
 $ ./target/release/OpenAI-API --model gpt-4o --temperature 0.8 "Write a haiku about programming"
 ```
 
 ### Advanced Parameters
+
 ```bash
 # With system instructions and token limits
 $ ./target/release/OpenAI-API --instructions "Be concise and helpful" --max-output-tokens 100 "Explain quantum computing"
@@ -156,6 +165,7 @@ $ ./target/release/OpenAI-API --stream "Tell me a story"
 ```
 
 ### JSON Output
+
 ```bash
 $ ./target/release/OpenAI-API --json "Hello, world!"
 {

@@ -1,6 +1,6 @@
-use reqwest::Client;
 use crate::api::errors::OpenAIError;
-use crate::api::models::{ResponseRequest, ResponseApiResponse, ResponseRequestBuilder};
+use crate::api::models::{ResponseApiResponse, ResponseRequest, ResponseRequestBuilder};
+use reqwest::Client;
 
 pub struct OpenAIClient {
     client: Client,
@@ -16,7 +16,12 @@ impl OpenAIClient {
     }
 
     /// Simple method for basic text responses (backward compatibility)
-    pub async fn get_response(&self, model: &str, prompt: &str, temperature: Option<f32>) -> Result<ResponseApiResponse, OpenAIError> {
+    pub async fn get_response(
+        &self,
+        model: &str,
+        prompt: &str,
+        temperature: Option<f32>,
+    ) -> Result<ResponseApiResponse, OpenAIError> {
         let request = ResponseRequest::builder()
             .model(model.to_string())
             .input_text(prompt.to_string())
@@ -28,14 +33,21 @@ impl OpenAIClient {
     }
 
     /// Advanced method using the full request builder
-    pub async fn get_response_with_builder(&self, builder: ResponseRequestBuilder) -> Result<ResponseApiResponse, OpenAIError> {
+    pub async fn get_response_with_builder(
+        &self,
+        builder: ResponseRequestBuilder,
+    ) -> Result<ResponseApiResponse, OpenAIError> {
         let request = builder.build();
         self.send_request(request).await
     }
 
     /// Send a complete request with all parameters
-    pub async fn send_request(&self, request: ResponseRequest) -> Result<ResponseApiResponse, OpenAIError> {
-        let response = self.client
+    pub async fn send_request(
+        &self,
+        request: ResponseRequest,
+    ) -> Result<ResponseApiResponse, OpenAIError> {
+        let response = self
+            .client
             .post("https://api.openai.com/v1/responses")
             .header("Authorization", format!("Bearer {}", self.api_key))
             .header("Content-Type", "application/json")
